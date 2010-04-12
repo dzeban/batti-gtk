@@ -1,6 +1,4 @@
 #summary Changes of batti between different version
 
-==ChangeLog==
-
 === batti-0.3.1 ===
   * included icon-theme
