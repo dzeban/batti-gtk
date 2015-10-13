@@ -1,0 +1,39 @@
+batti-0.3.7
+ - typo was %s%%% as a correction of %s\%. Should be %s%%
+ - UPowerBackend: don't save the dbus interface as a local variable. Get the interface from the session-bus every time it is needed, instead
+ - better battery level and notifications handling
+ - initial translation support
+ - minor fixes
+
+batti-0.3.6
+ - fixed DBusException handling on hibernate
+ - Fix typo (issue #2)
+
+batti-0.3.5
+ - Check for availability of notification-daemon, to make notification finally optional
+ - remove confusing comment about hal
+ - fixed/hacked rounding of 100% battery status
+ - changed status-ranges for images to better match gpm
+
+batti-0.3.4
+ - Moved constants into a separate file, so that the setup.py does not try to import gtk, which leads to an error if not in a X-environment. Thanks to Christoph Wickert for pointing that out.
+ - Included the license text as a constant, and from there into the about-dialog.
+ - included copyleft notices at the top of every file
+ - renamed battery.py into Battery.py to match the other files naming
+
+batti-0.3.3
+ - license removed from about-dialog, since its location is not that obvious
+
+batti-0.3.2
+ - license added in the about-dialog
+ - ChangeLog file added
+ - Code cleanups, thanks to Christian (idl0r) Ruppert
+ - added precise error message, when neither UPower nor DeviceKit.Power are available 
+ - check for gtk.main loop on closing, thanks to Christian (idl0r) Ruppert
+
+batti-0.3.1
+ - new icon-naming scheme
+ - icons from gnome-power-manager included according to the icon-naming scheme
+
+batti-0.3
+ - first official release

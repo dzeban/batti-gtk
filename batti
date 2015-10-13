@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+'''
+    This file is part of batti, a battery monitor for the system tray.
+    Copyright (C) 2010  Arthur Spitzer
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+'''
+
+import os
+import sys
+
+try:
+    import dbus
+    from dbus.mainloop.glib import DBusGMainLoop
+except ImportError:
+    sys.stderr.write("This program needs dbus-python\nExiting\n")
+    sys.exit(1)
+
+try:
+    if os.path.isdir(os.path.join(".","src")) and os.path.isfile(os.path.join(".","setup.py")):
+        from src import BatteryMonitor
+    else:
+        from batti import BatteryMonitor
+except ImportError:
+    sys.stderr.write("Can't import batti's BatteryMonitor module\nExiting\n")
+    sys.exit(1)
+
+if __name__ == "__main__":
+    DBusGMainLoop(set_as_default=True)
+    bus = dbus.SessionBus()
+    if bus.request_name("org.gitorious.batti") != dbus.bus.REQUEST_NAME_REPLY_PRIMARY_OWNER:
+        sys.stderr.write("Only one instance is allowed\n")
+        sys.exit(1)
+    else:
+        monitor = BatteryMonitor.BatteryMonitor()
+        monitor.main()
