@@ -76,16 +76,20 @@ class DeviceKitBackend(PowerBackend):
 
         properties = dbus.Interface(dkit_obj, 'org.freedesktop.DBus.Properties')
 
-        if properties.Get(self.dbus_interface, 'can-suspend'):
-            self.__can_suspend = True
-        else:
-            self.__can_suspend = False
-           
-        if properties.Get(self.dbus_interface, 'can-hibernate'):
-            self.__can_hibernate = True
-        else:
-            self.__can_hibernate = False
-            
+        self.__can_suspend = False
+        try:
+            if properties.Get(self.dbus_interface, 'can-suspend'):
+                self.__can_suspend = True
+        except DBusException:
+            pass
+
+        self.__can_hibernate = False
+        try:
+            if properties.Get(self.dbus_interface, 'can-hibernate'):
+                self.__can_hibernate = True
+        except DBusException:
+            pass
+
     
     def __mc_action(self, widget, event, data=None):
         if not self.__mc_action is None:
@@ -180,17 +184,20 @@ class UPowerBackend(PowerBackend):
         
         properties = dbus.Interface(iface, 'org.freedesktop.DBus.Properties')
 
-        if properties.Get(self.dbus_interface, 'CanSuspend'):
-            self.__can_suspend = True
-        else:
-            self.__can_suspend = False
-        
-        if properties.Get(self.dbus_interface, 'CanHibernate'):
-            self.__can_hibernate = True
-        else:
-            self.__can_hibernate = False
-    
-    
+        self.__can_suspend = False
+        try:
+            if properties.Get(self.dbus_interface, 'CanSuspend'):
+                self.__can_suspend = True
+        except DBusException:
+            pass
+
+        self.__can_hibernate = False
+        try:
+            if properties.Get(self.dbus_interface, 'CanHibernate'):
+                self.__can_hibernate = True
+        except DBusException:
+            pass
+
     def __get_interface(self):
         dkit_obj = self.__bus.get_object(self.dbus_service, self.dbus_object)
         return dbus.Interface(dkit_obj, self.dbus_interface)
